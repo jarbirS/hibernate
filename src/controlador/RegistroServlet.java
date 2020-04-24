@@ -21,6 +21,7 @@ public class RegistroServlet extends HttpServlet {
      */
     public RegistroServlet() {
         // TODO Auto-generated constructor stub
+    	super();
     }
 
 	/**
