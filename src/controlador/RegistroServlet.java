@@ -1,28 +1,26 @@
 package controlador;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import modelo.LoginDao;
+import modelo.HibernateUsuarioDao;
 import modelo.Usuario;
+import modelo.UsuarioDao;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class RegistroServlet
  */
-public class LoginServlet extends HttpServlet {
+public class RegistroServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * Default constructor. 
      */
-    public LoginServlet() {
+    public RegistroServlet() {
         // TODO Auto-generated constructor stub
-    	super();
     }
 
 	/**
@@ -40,27 +38,31 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String usuarioTxt = request.getParameter("usuario");
 		String claveTxt = request.getParameter("clave");
+		String nombreTxt = request.getParameter("nombre");
+		String direccionTxt = request.getParameter("direccion");
+		String telefonoTxt = request.getParameter("telefono");
+		String correoTxt = request.getParameter("email");
 		
 		Usuario usuario= new Usuario();
 		
 		usuario.setUsuario(usuarioTxt);
 		usuario.setClave(claveTxt);
+		usuario.setCorreo(correoTxt);
+		usuario.setDireccion(direccionTxt);
+		usuario.setNombre(nombreTxt);
+		usuario.setTelefono(telefonoTxt);
 		
-		LoginDao loginDao= new LoginDao();
+		System.out.println("Aca la prueba");
 		
-		String userValidate = loginDao.authenticateUser(usuario);
-		System.out.println(userValidate);
+		UsuarioDao usuarioDao = new HibernateUsuarioDao();
+		usuarioDao.insert(usuario);
 		
-		if(userValidate.contentEquals("SUCCESS")) {
-			request.setAttribute("username", usuarioTxt);
-			request.getRequestDispatcher("/home.jsp").forward (request, response);
-			}
-		else {
-			request.setAtributte("errMessage", userValidate);
-			request.getRequestDispatcher("/login.jsp".forward(request, response);
-			
-			
-		}
+		request.getRequestDispatcher("/login.jsp").forward(request, response);
+		
+		
+		
+		
+		
 		
 	}
 
